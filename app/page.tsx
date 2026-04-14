@@ -38,7 +38,7 @@ const COLORS = [
   "#B8860B","#556B2F","#8B4513","#483D8B","#2E8B57"
 ]
 
-const FLAG_URL = (code) => `https://flagcdn.com/24x18/${code.toLowerCase()}.png`
+const FLAG_URL = (code: string) => `https://flagcdn.com/24x18/${code.toLowerCase()}.png`
 
 const COUNTRY_ISO = {
   CAN:"ca", USA:"us", SWE:"se", FIN:"fi", RUS:"ru",
