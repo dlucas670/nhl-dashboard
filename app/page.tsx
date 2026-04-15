@@ -58,6 +58,7 @@ export default function Home() {
   const [finalists, setFinalists] = useState([])
   const [finalistLoading, setFinalistLoading] = useState(true)
   const [groupedView, setGroupedView] = useState(false)
+  const [dropdownOpen, setDropdownOpen] = useState(false)
 
   useEffect(() => {
     async function fetchPlayers() {
@@ -222,15 +223,42 @@ export default function Home() {
             alt={selectedTeam}
             className="h-24 w-24 object-contain"
           />
-          <select
-            value={selectedTeam}
-            onChange={e => setSelectedTeam(e.target.value)}
-            className="bg-gray-800 text-white border border-gray-600 rounded-lg px-6 py-3 text-lg focus:outline-none focus:border-blue-400 w-64"
-          >
-            {TEAM_LIST.map(([abbrev, name]) => (
-              <option key={abbrev} value={abbrev}>{name}</option>
-            ))}
-          </select>
+          <div className="relative w-72">
+            <button
+              onClick={() => setDropdownOpen(prev => !prev)}
+              className="w-full bg-gray-800 text-white border border-gray-600 rounded-lg px-4 py-3 text-lg focus:outline-none focus:border-blue-400 flex items-center gap-3"
+            >
+              <img
+                src={LOGO_URL(selectedTeam)}
+                alt={selectedTeam}
+                className="h-10 w-10 object-contain"
+              />
+              <span className="flex-1 text-left">
+                {TEAM_LIST.find(([abbrev]) => abbrev === selectedTeam)?.[1]}
+              </span>
+              <span className="text-gray-400">▾</span>
+            </button>
+            {dropdownOpen && (
+              <div className="absolute z-10 w-full bg-gray-800 border border-gray-600 rounded-lg mt-1 max-h-72 overflow-y-auto shadow-xl">
+                {TEAM_LIST.map(([abbrev, name]) => (
+                  <button
+                    key={abbrev}
+                    onClick={() => { setSelectedTeam(abbrev); setDropdownOpen(false) }}
+                    className={`w-full flex items-center gap-3 px-4 py-2.5 hover:bg-gray-700 text-left ${
+                      abbrev === selectedTeam ? 'bg-gray-700' : ''
+                    }`}
+                  >
+                    <img
+                      src={LOGO_URL(abbrev)}
+                      alt={abbrev}
+                      className="h-10 w-10 object-contain"
+                    />
+                    <span className="text-white text-sm">{name}</span>
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
 
         {loading ? (
