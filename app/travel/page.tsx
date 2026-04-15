@@ -84,6 +84,12 @@ export default function TravelPage() {
   const [data, setData]       = useState([])
   const [loading, setLoading] = useState(true)
   const [lastUpdated, setLastUpdated] = useState("")
+  const [allTravel, setAllTravel]     = useState([])
+  const [currentDate, setCurrentDate] = useState("")
+  const [isPlaying, setIsPlaying]     = useState(false)
+  const [playbackSpeed, setPlaybackSpeed] = useState(80)
+
+
 
   useEffect(() => {
     async function fetchTravel() {
@@ -100,10 +106,7 @@ export default function TravelPage() {
         setLoading(false)
         return
       }
-
-      console.log("Total NYR rows:", rows.filter(r => r.team_abbrev === 'NYR').length)
-      console.log("Sample NYR rows:", rows.filter(r => r.team_abbrev === 'NYR').slice(0, 3))
-
+      
       // For each team find the row with the highest cumulative_miles
       // That row also has the correct games_played count
       const totals = {}
@@ -137,6 +140,97 @@ export default function TravelPage() {
     fetchTravel()
   }, [])
 
+  useEffect(() => {
+    async function fetchAllTravel() {
+      const pageSize = 1000
+      let allRows = []
+      let page = 0
+      let keepFetching = true
+
+      while (keepFetching) {
+        const { data: rows, error } = await supabase
+          .from('team_travel')
+          .select('team_abbrev, game_date, cumulative_miles, games_played')
+          .neq('opponent', 'HOME')
+          .order('game_date', { ascending: true })
+          .range(page * pageSize, (page + 1) * pageSize - 1)
+
+        if (error || !rows || rows.length === 0) {
+          keepFetching = false
+        } else {
+          allRows = [...allRows, ...rows]
+          if (rows.length < pageSize) {
+            keepFetching = false
+          } else {
+            page++
+          }
+        }
+      }
+
+      console.log("Total travel rows fetched:", allRows.length)
+      console.log("Last date in data:", allRows[allRows.length - 1]?.game_date)
+
+      setAllTravel(allRows)
+    }
+    fetchAllTravel()
+  }, [])
+
+  const allDates = [...new Set(allTravel.map(r => r.game_date))].sort()
+  const currentDateIndex = Math.max(0, allDates.indexOf(currentDate))
+
+  // Set starting date once allDates is populated
+  useEffect(() => {
+    if (allDates.length > 0 && !currentDate) {
+      setCurrentDate("2025-10-06")
+    }
+  }, [allDates.length])
+
+  // For the animation, compute each team's mileage as of currentDate
+  const animatedData = (() => {
+    if (allTravel.length === 0) return data
+    if (!currentDate || currentDate < "2025-10-07") {
+      // Show all 32 teams with 0 miles before the season starts
+      return Object.keys(TEAM_NAMES).map(abbrev => ({
+        abbrev,
+        miles: 0,
+        games: 0,
+      })).sort((a, b) => a.abbrev.localeCompare(b.abbrev))
+    }
+    const totals = {}
+    allTravel
+      .filter(r => r.game_date <= currentDate)
+      .forEach(row => {
+        const t = row.team_abbrev
+        if (!totals[t] || row.cumulative_miles > totals[t].miles) {
+          totals[t] = { miles: row.cumulative_miles, games: row.games_played }
+        }
+      })
+    return Object.entries(totals)
+      .map(([abbrev, val]) => ({
+        abbrev,
+        miles: Math.round(val.miles),
+        games: val.games || 0,
+      }))
+      .sort((a, b) => b.miles - a.miles)
+  })()
+
+    useEffect(() => {
+    if (!isPlaying) return
+
+    const interval = setInterval(() => {
+      setCurrentDate(prev => {
+        const idx = allDates.indexOf(prev)
+        if (idx >= allDates.length - 1) {
+          setIsPlaying(false)
+          return prev
+        }
+        return allDates[idx + 1]
+      })
+    }, playbackSpeed)
+
+    return () => clearInterval(interval)
+  }, [isPlaying, playbackSpeed, allDates.join(",")])
+
   const chartHeight = data.length * 44 + 60
 
   return (
@@ -169,6 +263,66 @@ export default function TravelPage() {
           </p>
         )}
 
+{/* Playback Controls */}
+        {allDates.length > 0 && (
+          <div className="bg-gray-900 rounded-2xl p-5 border border-gray-800 mb-6">
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-3">
+                <button
+                  onClick={() => setIsPlaying(p => !p)}
+                  className="bg-blue-600 hover:bg-blue-500 text-white font-semibold px-6 py-2 rounded-lg transition-colors"
+                >
+                  {isPlaying ? "⏸ Pause" : "▶ Play"}
+                </button>
+                <button
+                  onClick={() => { setIsPlaying(false); setCurrentDate("2025-10-06") }}
+                  className="bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded-lg transition-colors text-sm"
+                >
+                  ↺ Reset
+                </button>
+              </div>
+              <div className="flex items-center gap-3">
+                <span className="text-gray-400 text-sm">Speed:</span>
+                {[["Slow", 500], ["Normal", 150], ["Fast", 50]].map(([label, ms]) => (
+                  <button
+                    key={label}
+                    onClick={() => setPlaybackSpeed(ms as number)}
+                    className={`px-3 py-1 rounded text-sm font-medium transition-colors ${
+                      playbackSpeed === ms
+                        ? 'bg-blue-600 text-white'
+                        : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                    }`}
+                  >
+                    {label}
+                  </button>
+                ))}
+              </div>
+            </div>
+            <div className="flex items-center gap-4">
+              <span className="text-gray-400 text-sm w-24 shrink-0">
+                {allDates[0]?.slice(5)}
+              </span>
+              <input
+                type="range"
+                min={0}
+                max={allDates.length - 1}
+                value={currentDateIndex}
+                onChange={e => {
+                  setIsPlaying(false)
+                  setCurrentDate(allDates[Number(e.target.value)])
+                }}
+                className="flex-1 accent-blue-500"
+              />
+              <span className="text-gray-400 text-sm w-24 shrink-0 text-right">
+                {allDates[allDates.length - 1]?.slice(5)}
+              </span>
+            </div>
+            <div className="text-center mt-2 text-white font-semibold text-lg">
+              {currentDate}
+            </div>
+          </div>
+        )}
+
         {loading ? (
           <p className="text-center text-gray-400 text-xl mt-20">Loading...</p>
         ) : (
@@ -176,6 +330,11 @@ export default function TravelPage() {
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-xl font-semibold text-blue-300">
                 Miles Traveled — All 32 Teams
+                {currentDate && (
+                  <span className="text-gray-400 font-normal text-base ml-3">
+                    as of {currentDate}
+                  </span>
+                )}
               </h2>
               <span className="text-gray-400 text-sm">
                 Sorted most → least
@@ -184,7 +343,7 @@ export default function TravelPage() {
 
             <ResponsiveContainer width="100%" height={chartHeight}>
               <BarChart
-                data={data}
+                data={animatedData}
                 layout="vertical"
                 margin={{ top: 0, right: 80, left: 60, bottom: 0 }}
               >
@@ -209,6 +368,7 @@ export default function TravelPage() {
                 />
                 <Tooltip content={<CustomTooltip />} cursor={{ fill: 'rgba(255,255,255,0.05)' }} />
                 <Bar dataKey="miles" radius={[0, 4, 4, 0]} maxBarSize={28}
+                  isAnimationActive={false}
                   label={{
                     position: 'right',
                     formatter: v => v.toLocaleString(),
