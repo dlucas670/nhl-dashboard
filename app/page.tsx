@@ -42,6 +42,8 @@ const COLORS = [
 
 const FLAG_URL = (code: string) => `https://flagcdn.com/24x18/${code.toLowerCase()}.png`
 
+const LOGO_URL = (abbrev: string) => `https://assets.nhle.com/logos/nhl/svg/${abbrev}_light.svg`
+
 const COUNTRY_ISO = {
   CAN:"ca", USA:"us", SWE:"se", FIN:"fi", RUS:"ru",
   CZE:"cz", SVK:"sk", CHE:"ch", DEU:"de", AUT:"at",
@@ -214,7 +216,12 @@ export default function Home() {
           Explore the nationality makeup of every NHL team
         </p>
 
-        <div className="flex justify-center mb-10">
+        <div className="flex flex-col items-center mb-10 gap-4">
+          <img
+            src={LOGO_URL(selectedTeam)}
+            alt={selectedTeam}
+            className="h-24 w-24 object-contain"
+          />
           <select
             value={selectedTeam}
             onChange={e => setSelectedTeam(e.target.value)}
@@ -232,9 +239,16 @@ export default function Home() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
 
             <div className="bg-gray-900 rounded-2xl p-6 border border-gray-800">
-              <h2 className="text-xl font-semibold mb-4 text-blue-300">
-                Nationality Breakdown — {selectedTeam}
-              </h2>
+              <div className="flex items-center gap-3 mb-4">
+                <img
+                  src={LOGO_URL(selectedTeam)}
+                  alt={selectedTeam}
+                  className="h-20 w-20 object-contain"
+                />
+                <h2 className="text-xl font-semibold text-blue-300">
+                  Nationality Breakdown — {selectedTeam}
+                </h2>
+              </div>
               <ResponsiveContainer width="100%" height={320}>
                 <PieChart>
                   <Pie
