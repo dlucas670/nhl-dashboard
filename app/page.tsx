@@ -52,7 +52,7 @@ const COUNTRY_ISO = {
 }
 
 export default function Home() {
-  const [selectedTeam, setSelectedTeam] = useState('TOR')
+  const [selectedTeam, setSelectedTeam] = useState('ANA')
   const [players, setPlayers] = useState([])
   const [loading, setLoading] = useState(true)
   const [finalists, setFinalists] = useState([])
