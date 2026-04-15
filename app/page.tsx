@@ -210,6 +210,19 @@ export default function Home() {
     <main className="min-h-screen bg-gray-950 text-white p-8">
       <div className="max-w-5xl mx-auto">
 
+        {/* Navigation */}
+        <nav className="flex justify-center gap-6 mb-8">
+          <a href="/"
+            className="text-white font-semibold border-b-2 border-blue-400 pb-0.5">
+            Nationality Dashboard
+          </a>
+          <span className="text-gray-600">|</span>
+          <a href="/travel"
+            className="text-blue-400 hover:text-blue-200 font-medium transition-colors">
+            Travel Tracker
+          </a>
+        </nav>
+
         <h1 className="text-4xl font-bold text-center mb-2 text-white">
           🏒 NHL Nationality Dashboard
         </h1>
