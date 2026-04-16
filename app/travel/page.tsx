@@ -186,6 +186,7 @@ export default function TravelPage() {
 
   return (
     <main className="min-h-screen bg-gray-950 text-white p-8">
+        <title>Stat Grinder — Travel Tracker</title>
       <div className="max-w-5xl mx-auto">
 
         <nav className="flex justify-center gap-6 mb-8">

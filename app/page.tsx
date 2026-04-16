@@ -208,6 +208,7 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-gray-950 text-white p-8">
+      <title>Stat Grinder — Nationality Dashboard</title>
       <div className="max-w-5xl mx-auto">
 
         {/* Navigation */}

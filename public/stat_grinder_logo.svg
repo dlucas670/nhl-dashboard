@@ -1,0 +1,103 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="680" height="300" viewBox="0 0 680 300" role="img">
+  <title>Stat Grinder logo with Jason mask and vertical offset SG monogram</title>
+  <desc>Hockey analytics logo with Jason mask featuring vertical SG monogram offset diagonally</desc>
+
+  <defs>
+    <clipPath id="maskClip">
+      <path d="M148 30 C114 30 84 48 72 76 C60 104 62 136 66 160 C70 184 80 206 96 222 C110 236 128 246 148 248 C168 246 186 236 200 222 C216 206 226 184 230 160 C234 136 236 104 224 76 C212 48 182 30 148 30Z"/>
+    </clipPath>
+    <mask id="holesMask">
+      <rect width="300" height="300" fill="white"/>
+      <ellipse cx="116" cy="108" rx="22" ry="18" fill="black"/>
+      <ellipse cx="180" cy="108" rx="22" ry="18" fill="black"/>
+      <circle cx="84"  cy="120" r="5" fill="black"/>
+      <circle cx="84"  cy="138" r="5" fill="black"/>
+      <circle cx="84"  cy="156" r="5" fill="black"/>
+      <circle cx="212" cy="120" r="5" fill="black"/>
+      <circle cx="212" cy="138" r="5" fill="black"/>
+      <circle cx="212" cy="156" r="5" fill="black"/>
+      <circle cx="114" cy="175" r="5" fill="black"/>
+      <circle cx="132" cy="175" r="5" fill="black"/>
+      <circle cx="148" cy="175" r="5" fill="black"/>
+      <circle cx="164" cy="175" r="5" fill="black"/>
+      <circle cx="182" cy="175" r="5" fill="black"/>
+      <circle cx="114" cy="193" r="5" fill="black"/>
+      <circle cx="132" cy="193" r="5" fill="black"/>
+      <circle cx="148" cy="193" r="5" fill="black"/>
+      <circle cx="164" cy="193" r="5" fill="black"/>
+      <circle cx="182" cy="193" r="5" fill="black"/>
+      <circle cx="124" cy="214" r="5" fill="black"/>
+      <circle cx="148" cy="218" r="5" fill="black"/>
+      <circle cx="172" cy="214" r="5" fill="black"/>
+      <circle cx="106" cy="72"  r="5" fill="black"/>
+      <circle cx="148" cy="62"  r="5" fill="black"/>
+      <circle cx="190" cy="72"  r="5" fill="black"/>
+      <circle cx="96"  cy="90"  r="5" fill="black"/>
+      <circle cx="200" cy="90"  r="5" fill="black"/>
+      <circle cx="148" cy="100" r="5" fill="black"/>
+    </mask>
+  </defs>
+
+
+  <!-- mask base -->
+  <path d="M148 30 C114 30 84 48 72 76 C60 104 62 136 66 160 C70 184 80 206 96 222 C110 236 128 246 148 248 C168 246 186 236 200 222 C216 206 226 184 230 160 C234 136 236 104 224 76 C212 48 182 30 148 30Z"
+    fill="#e8e4df" stroke="#c4bdb5" stroke-width="1.5"/>
+
+  <!-- side shading -->
+  <path d="M72 76 C60 104 62 136 66 160 C70 184 80 206 96 222 C84 210 74 188 70 162 C66 136 66 104 78 78Z" fill="#d0cbc4" opacity="0.5"/>
+  <path d="M224 76 C236 104 234 136 230 160 C226 184 216 206 200 222 C212 210 222 188 226 162 C230 136 230 104 218 78Z" fill="#d0cbc4" opacity="0.5"/>
+
+  <!-- SG monogram -->
+  <g clip-path="url(#maskClip)" mask="url(#holesMask)">
+    <text x="100" y="195" font-family="Arial Black, Arial" font-weight="900" font-size="80" fill="#3b82f6" opacity="0.65">S</text>
+    <text x="126" y="222" font-family="Arial Black, Arial" font-weight="900" font-size="80" fill="#1d4ed8" opacity="0.65">G</text>
+  </g>
+
+  <!-- eye holes -->
+  <ellipse cx="116" cy="108" rx="22" ry="18" fill="#111" stroke="#a09890" stroke-width="1"/>
+  <ellipse cx="180" cy="108" rx="22" ry="18" fill="#111" stroke="#a09890" stroke-width="1"/>
+
+  <!-- nose bridge -->
+  <path d="M138 120 Q148 115 158 120 L160 138 Q148 142 136 138Z" fill="#d8d3cc"/>
+
+  <!-- breathing holes -->
+  <circle cx="84"  cy="120" r="5" fill="#111" stroke="#a09890" stroke-width="0.5"/>
+  <circle cx="84"  cy="138" r="5" fill="#111" stroke="#a09890" stroke-width="0.5"/>
+  <circle cx="84"  cy="156" r="5" fill="#111" stroke="#a09890" stroke-width="0.5"/>
+  <circle cx="212" cy="120" r="5" fill="#111" stroke="#a09890" stroke-width="0.5"/>
+  <circle cx="212" cy="138" r="5" fill="#111" stroke="#a09890" stroke-width="0.5"/>
+  <circle cx="212" cy="156" r="5" fill="#111" stroke="#a09890" stroke-width="0.5"/>
+  <circle cx="114" cy="175" r="5" fill="#111" stroke="#a09890" stroke-width="0.5"/>
+  <circle cx="132" cy="175" r="5" fill="#111" stroke="#a09890" stroke-width="0.5"/>
+  <circle cx="148" cy="175" r="5" fill="#111" stroke="#a09890" stroke-width="0.5"/>
+  <circle cx="164" cy="175" r="5" fill="#111" stroke="#a09890" stroke-width="0.5"/>
+  <circle cx="182" cy="175" r="5" fill="#111" stroke="#a09890" stroke-width="0.5"/>
+  <circle cx="114" cy="193" r="5" fill="#111" stroke="#a09890" stroke-width="0.5"/>
+  <circle cx="132" cy="193" r="5" fill="#111" stroke="#a09890" stroke-width="0.5"/>
+  <circle cx="148" cy="193" r="5" fill="#111" stroke="#a09890" stroke-width="0.5"/>
+  <circle cx="164" cy="193" r="5" fill="#111" stroke="#a09890" stroke-width="0.5"/>
+  <circle cx="182" cy="193" r="5" fill="#111" stroke="#a09890" stroke-width="0.5"/>
+  <circle cx="124" cy="214" r="5" fill="#111" stroke="#a09890" stroke-width="0.5"/>
+  <circle cx="148" cy="218" r="5" fill="#111" stroke="#a09890" stroke-width="0.5"/>
+  <circle cx="172" cy="214" r="5" fill="#111" stroke="#a09890" stroke-width="0.5"/>
+  <circle cx="106" cy="72"  r="5" fill="#111" stroke="#a09890" stroke-width="0.5"/>
+  <circle cx="148" cy="62"  r="5" fill="#111" stroke="#a09890" stroke-width="0.5"/>
+  <circle cx="190" cy="72"  r="5" fill="#111" stroke="#a09890" stroke-width="0.5"/>
+  <circle cx="96"  cy="90"  r="5" fill="#111" stroke="#a09890" stroke-width="0.5"/>
+  <circle cx="200" cy="90"  r="5" fill="#111" stroke="#a09890" stroke-width="0.5"/>
+  <circle cx="148" cy="100" r="5" fill="#111" stroke="#a09890" stroke-width="0.5"/>
+
+  <!-- rivets -->
+  <circle cx="68"  cy="148" r="5" fill="#8a8070" stroke="#6a6050" stroke-width="1"/>
+  <circle cx="228" cy="148" r="5" fill="#8a8070" stroke="#6a6050" stroke-width="1"/>
+
+  <!-- divider -->
+  <line x1="290" y1="60" x2="290" y2="240" stroke="#cbd5e1" stroke-width="1"/>
+
+  <!-- wordmark -->
+  <text x="330" y="132" font-family="Arial Black, Arial" font-weight="900" font-size="62" letter-spacing="-1" fill="#0f172a">STAT</text>
+  <rect x="330" y="145" width="300" height="4" fill="#3b82f6" rx="2"/>
+  <text x="330" y="204" font-family="Arial Black, Arial" font-weight="900" font-size="62" letter-spacing="-1" fill="#0f172a">GRINDER</text>
+  <text x="332" y="230" font-family="Arial, sans-serif" font-size="13" letter-spacing="4" fill="#64748b">NHL ANALYTICS</text>
+
+</svg>
