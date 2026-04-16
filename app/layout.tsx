@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   title: "Stat Grinder",
   description: "NHL statistics and analytics dashboard",
   icons: {
-    icon: '/stat_grinder_favicon.svg',
+    icon: '/stat_grinder_favicon.ico',
   },
 };
 
