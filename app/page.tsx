@@ -212,7 +212,7 @@ export default function Home() {
 
         {/* Navigation */}
         <nav className="flex justify-center gap-6 mb-8">
-          <a href="/" className="text-blue-400 hover:text-blue-200 font-medium transition-colors">
+          <a href="/" className="text-white font-semibold border-b-2 border-blue-400 pb-0.5">
             Nationality Dashboard
           </a>
           <span className="text-gray-600">|</span>
@@ -220,7 +220,7 @@ export default function Home() {
             Travel Tracker
           </a>
           <span className="text-gray-600">|</span>
-          <a href="/location" className="text-white font-semibold border-b-2 border-blue-400 pb-0.5">
+          <a href="/location" className="text-blue-400 hover:text-blue-200 font-medium transition-colors">
             Team Locations
           </a>
         </nav>
