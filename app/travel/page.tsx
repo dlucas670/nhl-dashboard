@@ -9,7 +9,7 @@ import {
   Tooltip, ResponsiveContainer, Cell
 } from 'recharts'
 
-const TEAM_NAMES = {
+const TEAM_NAMES: Record<string, string> = {
   ANA:"Anaheim Ducks",      BOS:"Boston Bruins",
   BUF:"Buffalo Sabres",     CAR:"Carolina Hurricanes",
   CGY:"Calgary Flames",     CHI:"Chicago Blackhawks",
@@ -28,68 +28,55 @@ const TEAM_NAMES = {
   WSH:"Washington Capitals",WPG:"Winnipeg Jets",
 }
 
-const LOGO_URL = (abbrev) =>
+const LOGO_URL = (abbrev: string) =>
   `https://assets.nhle.com/logos/nhl/svg/${abbrev}_light.svg`
 
-const COLORS = [
-  "#2E75B6","#1A5C38","#C9472A","#6A0DAD","#B8860B",
-  "#008B8B","#8B0000","#2F4F4F","#556B2F","#483D8B",
-  "#8B4513","#2E8B57","#4B0082","#8B6914","#1A3A5C",
-]
+const TEAM_COLORS: Record<string, string> = {
+  ANA:"#FC4C02", BOS:"#FFB81C", BUF:"#041E42", CAR:"#A2AAAD",
+  CGY:"#F1BE08", CHI:"#C8102E", CBJ:"#041E42", COL:"#6F263D",
+  DAL:"#006341", DET:"#C8102E", EDM:"#CF4520", FLA:"#b9975b",
+  LAK:"#010101", MIN:"#154734", MTL:"#a6192e", NJD:"#c8102e",
+  NSH:"#ffb81c", NYI:"#fc4c02", NYR:"#0033a0", OTT:"#c8102e",
+  PHI:"#fa4616", PIT:"#ffb81c", SEA:"#9CDBD9", SJS:"#006272",
+  STL:"#003087", TBL:"#00205b", TOR:"#00205b", UTA:"#69B3E7",
+  VAN:"#97999b", VGK:"#b4975a", WSH:"#a6192e", WPG:"#041e42",
+}
 
-const CustomYAxisTick = ({ x, y, payload }) => {
+const CustomYAxisTick = ({ x, y, payload }: any) => {
   const abbrev = payload.value
   return (
     <g transform={`translate(${x},${y})`}>
-      <image
-        href={LOGO_URL(abbrev)}
-        x={-52}
-        y={-12}
-        width={24}
-        height={24}
-      />
-      <text
-        x={-24}
-        y={4}
-        textAnchor="start"
-        fill="#9CA3AF"
-        fontSize={11}
-      >
+      <image href={LOGO_URL(abbrev)} x={-52} y={-12} width={24} height={24} />
+      <text x={-24} y={4} textAnchor="start" fill="#9CA3AF" fontSize={11}>
         {abbrev}
       </text>
     </g>
   )
 }
 
-const CustomTooltip = ({ active, payload }) => {
+const CustomTooltip = ({ active, payload }: any) => {
   if (!active || !payload?.length) return null
   const d = payload[0].payload
   return (
     <div className="bg-gray-800 border border-gray-600 rounded-lg p-3 text-sm">
       <div className="flex items-center gap-2 mb-1">
-        <img src={LOGO_URL(d.abbrev)} className="h-6 w-6 object-contain" />
+        <img src={LOGO_URL(d.abbrev)} className="h-6 w-6 object-contain" alt={d.abbrev} />
         <span className="font-semibold text-white">{TEAM_NAMES[d.abbrev]}</span>
       </div>
-      <div className="text-gray-300">
-        {d.miles.toLocaleString()} miles traveled
-      </div>
-      <div className="text-gray-400 text-xs mt-1">
-        {d.games} games played
-      </div>
+      <div className="text-gray-300">{d.miles.toLocaleString()} miles traveled</div>
+      <div className="text-gray-400 text-xs mt-1">{d.games} games played</div>
     </div>
   )
 }
 
 export default function TravelPage() {
-  const [data, setData]       = useState([])
-  const [loading, setLoading] = useState(true)
+  const [data, setData]               = useState<any[]>([])
+  const [loading, setLoading]         = useState(true)
   const [lastUpdated, setLastUpdated] = useState("")
-  const [allTravel, setAllTravel]     = useState([])
+  const [allTravel, setAllTravel]     = useState<any[]>([])
   const [currentDate, setCurrentDate] = useState("")
   const [isPlaying, setIsPlaying]     = useState(false)
-  const [playbackSpeed, setPlaybackSpeed] = useState(80)
-
-
+  const [playbackSpeed, setPlaybackSpeed] = useState(150)
 
   useEffect(() => {
     async function fetchTravel() {
@@ -101,39 +88,22 @@ export default function TravelPage() {
         .order('game_date', { ascending: false })
         .limit(5000)
 
-      if (error) {
-        console.error(error)
-        setLoading(false)
-        return
-      }
-      
-      // For each team find the row with the highest cumulative_miles
-      // That row also has the correct games_played count
-      const totals = {}
-      rows.forEach(row => {
+      if (error) { console.error(error); setLoading(false); return }
+
+      const totals: Record<string, any> = {}
+      rows.forEach((row: any) => {
         const t = row.team_abbrev
         if (!totals[t] || row.cumulative_miles > totals[t].miles) {
-          totals[t] = {
-            miles:        row.cumulative_miles,
-            games:        row.games_played,
-            date:         row.game_date,
-          }
+          totals[t] = { miles: row.cumulative_miles, games: row.games_played }
         }
       })
 
       const chartData = Object.entries(totals)
-        .map(([abbrev, val]) => ({
-          abbrev,
-          miles: Math.round(val.miles),
-          games: val.games || 0,
-        }))
+        .map(([abbrev, val]: any) => ({ abbrev, miles: Math.round(val.miles), games: val.games || 0 }))
         .sort((a, b) => b.miles - a.miles)
 
       setData(chartData)
-
-      // Most recent game date across all teams
-      const latest = rows.reduce((max, r) =>
-        r.game_date > max ? r.game_date : max, "")
+      const latest = rows.reduce((max: string, r: any) => r.game_date > max ? r.game_date : max, "")
       setLastUpdated(latest)
       setLoading(false)
     }
@@ -143,7 +113,7 @@ export default function TravelPage() {
   useEffect(() => {
     async function fetchAllTravel() {
       const pageSize = 1000
-      let allRows = []
+      let allRows: any[] = []
       let page = 0
       let keepFetching = true
 
@@ -159,98 +129,79 @@ export default function TravelPage() {
           keepFetching = false
         } else {
           allRows = [...allRows, ...rows]
-          if (rows.length < pageSize) {
-            keepFetching = false
-          } else {
-            page++
-          }
+          if (rows.length < pageSize) keepFetching = false
+          else page++
         }
       }
-
-      console.log("Total travel rows fetched:", allRows.length)
-      console.log("Last date in data:", allRows[allRows.length - 1]?.game_date)
 
       setAllTravel(allRows)
     }
     fetchAllTravel()
   }, [])
 
-  const allDates = [...new Set(allTravel.map(r => r.game_date))].sort()
+  const allDates = [...new Set(allTravel.map((r: any) => r.game_date))].sort() as string[]
   const currentDateIndex = Math.max(0, allDates.indexOf(currentDate))
 
-  // Set starting date once allDates is populated
   useEffect(() => {
     if (allDates.length > 0 && !currentDate) {
-      setCurrentDate("2025-10-06")
+      // On load show the latest date (current totals)
+      setCurrentDate(allDates[allDates.length - 1])
     }
   }, [allDates.length])
 
-  // For the animation, compute each team's mileage as of currentDate
+  useEffect(() => {
+    if (!isPlaying) return
+    const interval = setInterval(() => {
+      setCurrentDate(prev => {
+        const idx = allDates.indexOf(prev)
+        if (idx >= allDates.length - 1) { setIsPlaying(false); return prev }
+        return allDates[idx + 1]
+      })
+    }, playbackSpeed)
+    return () => clearInterval(interval)
+  }, [isPlaying, playbackSpeed, allDates.join(",")])
+
   const animatedData = (() => {
     if (allTravel.length === 0) return data
     if (!currentDate || currentDate < "2025-10-07") {
-      // Show all 32 teams with 0 miles before the season starts
       return Object.keys(TEAM_NAMES).map(abbrev => ({
-        abbrev,
-        miles: 0,
-        games: 0,
+        abbrev, miles: 0, games: 0,
       })).sort((a, b) => a.abbrev.localeCompare(b.abbrev))
     }
-    const totals = {}
+    const totals: Record<string, any> = {}
     allTravel
-      .filter(r => r.game_date <= currentDate)
-      .forEach(row => {
+      .filter((r: any) => r.game_date <= currentDate)
+      .forEach((row: any) => {
         const t = row.team_abbrev
         if (!totals[t] || row.cumulative_miles > totals[t].miles) {
           totals[t] = { miles: row.cumulative_miles, games: row.games_played }
         }
       })
     return Object.entries(totals)
-      .map(([abbrev, val]) => ({
-        abbrev,
-        miles: Math.round(val.miles),
-        games: val.games || 0,
-      }))
+      .map(([abbrev, val]: any) => ({ abbrev, miles: Math.round(val.miles), games: val.games || 0 }))
       .sort((a, b) => b.miles - a.miles)
   })()
 
-    useEffect(() => {
-    if (!isPlaying) return
-
-    const interval = setInterval(() => {
-      setCurrentDate(prev => {
-        const idx = allDates.indexOf(prev)
-        if (idx >= allDates.length - 1) {
-          setIsPlaying(false)
-          return prev
-        }
-        return allDates[idx + 1]
-      })
-    }, playbackSpeed)
-
-    return () => clearInterval(interval)
-  }, [isPlaying, playbackSpeed, allDates.join(",")])
-
-  const chartHeight = data.length * 44 + 60
+  const chartHeight = Math.max(animatedData.length, 32) * 44 + 60
 
   return (
     <main className="min-h-screen bg-gray-950 text-white p-8">
       <div className="max-w-5xl mx-auto">
 
-        {/* Navigation */}
         <nav className="flex justify-center gap-6 mb-8">
-          <a href="/"
-            className="text-blue-400 hover:text-blue-200 font-medium transition-colors">
+          <a href="/" className="text-blue-400 hover:text-blue-200 font-medium transition-colors">
             Nationality Dashboard
           </a>
           <span className="text-gray-600">|</span>
-          <a href="/travel"
-            className="text-white font-semibold border-b-2 border-blue-400 pb-0.5">
+          <a href="/travel" className="text-white font-semibold border-b-2 border-blue-400 pb-0.5">
             Travel Tracker
+          </a>
+          <span className="text-gray-600">|</span>
+          <a href="/location" className="text-blue-400 hover:text-blue-200 font-medium transition-colors">
+            Team Locations
           </a>
         </nav>
 
-        {/* Header */}
         <h1 className="text-4xl font-bold text-center mb-2 text-white">
           ✈️ NHL Team Travel Tracker
         </h1>
@@ -263,13 +214,24 @@ export default function TravelPage() {
           </p>
         )}
 
-{/* Playback Controls */}
         {allDates.length > 0 && (
           <div className="bg-gray-900 rounded-2xl p-5 border border-gray-800 mb-6">
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-3">
                 <button
-                  onClick={() => setIsPlaying(p => !p)}
+                  onClick={() => {
+                    if (!isPlaying) {
+                      // If at the end, rewind to start before playing
+                      if (currentDate >= allDates[allDates.length - 1]) {
+                        setCurrentDate("2025-10-06")
+                        setTimeout(() => setIsPlaying(true), 50)
+                      } else {
+                        setIsPlaying(true)
+                      }
+                    } else {
+                      setIsPlaying(false)
+                    }
+                  }}
                   className="bg-blue-600 hover:bg-blue-500 text-white font-semibold px-6 py-2 rounded-lg transition-colors"
                 >
                   {isPlaying ? "⏸ Pause" : "▶ Play"}
@@ -283,14 +245,12 @@ export default function TravelPage() {
               </div>
               <div className="flex items-center gap-3">
                 <span className="text-gray-400 text-sm">Speed:</span>
-                {[["Slow", 500], ["Normal", 150], ["Fast", 50]].map(([label, ms]) => (
+                {([["Slow", 500], ["Normal", 150], ["Fast", 50]] as [string, number][]).map(([label, ms]) => (
                   <button
                     key={label}
-                    onClick={() => setPlaybackSpeed(ms as number)}
+                    onClick={() => setPlaybackSpeed(ms)}
                     className={`px-3 py-1 rounded text-sm font-medium transition-colors ${
-                      playbackSpeed === ms
-                        ? 'bg-blue-600 text-white'
-                        : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                      playbackSpeed === ms ? 'bg-blue-600 text-white' : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
                     }`}
                   >
                     {label}
@@ -299,18 +259,13 @@ export default function TravelPage() {
               </div>
             </div>
             <div className="flex items-center gap-4">
-              <span className="text-gray-400 text-sm w-24 shrink-0">
-                {allDates[0]?.slice(5)}
-              </span>
+              <span className="text-gray-400 text-sm w-24 shrink-0">{allDates[0]?.slice(5)}</span>
               <input
                 type="range"
                 min={0}
                 max={allDates.length - 1}
                 value={currentDateIndex}
-                onChange={e => {
-                  setIsPlaying(false)
-                  setCurrentDate(allDates[Number(e.target.value)])
-                }}
+                onChange={e => { setIsPlaying(false); setCurrentDate(allDates[Number(e.target.value)]) }}
                 className="flex-1 accent-blue-500"
               />
               <span className="text-gray-400 text-sm w-24 shrink-0 text-right">
@@ -336,26 +291,23 @@ export default function TravelPage() {
                   </span>
                 )}
               </h2>
-              <span className="text-gray-400 text-sm">
-                Sorted most → least
-              </span>
+              <span className="text-gray-400 text-sm">Sorted most → least</span>
             </div>
-
             <ResponsiveContainer width="100%" height={chartHeight}>
               <BarChart
                 data={animatedData}
                 layout="vertical"
                 margin={{ top: 0, right: 80, left: 60, bottom: 0 }}
               >
-                <CartesianGrid
-                  strokeDasharray="3 3"
-                  stroke="#374151"
-                  horizontal={false}
-                />
+                <CartesianGrid strokeDasharray="3 3" stroke="#374151" horizontal={false} />
                 <XAxis
                   type="number"
+                  domain={[0, () => {
+                    const currentMax = Math.max(...animatedData.map((d: any) => d.miles), 1000)
+                    return Math.ceil(currentMax / 5000) * 5000
+                  }]}
                   tick={{ fill: '#9CA3AF', fontSize: 11 }}
-                  tickFormatter={v => `${(v/1000).toFixed(0)}k`}
+                  tickFormatter={v => `${(v / 1000).toFixed(0)}k`}
                   axisLine={{ stroke: '#374151' }}
                 />
                 <YAxis
@@ -367,17 +319,16 @@ export default function TravelPage() {
                   tickLine={false}
                 />
                 <Tooltip content={<CustomTooltip />} cursor={{ fill: 'rgba(255,255,255,0.05)' }} />
-                <Bar dataKey="miles" radius={[0, 4, 4, 0]} maxBarSize={28}
-                  isAnimationActive={false}
+                <Bar dataKey="miles" radius={[0, 4, 4, 0]} maxBarSize={28} isAnimationActive={false}
                   label={{
                     position: 'right',
-                    formatter: v => v.toLocaleString(),
+                    formatter: (v: number) => v.toLocaleString(),
                     fill: '#9CA3AF',
                     fontSize: 11,
                   }}
                 >
-                  {data.map((_, i) => (
-                    <Cell key={i} fill={COLORS[i % COLORS.length]} />
+                  {animatedData.map((d: any, i: number) => (
+                    <Cell key={i} fill={TEAM_COLORS[d.abbrev] || "#2E75B6"} />
                   ))}
                 </Bar>
               </BarChart>
