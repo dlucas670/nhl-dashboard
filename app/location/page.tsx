@@ -57,8 +57,9 @@ export default function LocationPage() {
   const [allTravel, setAllTravel]     = useState<any[]>([])
   const [currentDate, setCurrentDate] = useState("")
   const [isPlaying, setIsPlaying]     = useState(false)
-  const [playbackSpeed, setPlaybackSpeed] = useState(150)
+  const [playbackSpeed, setPlaybackSpeed] = useState(500)
   const [loading, setLoading]         = useState(true)
+  const [selectedTeam, setSelectedTeam] = useState<string>("ALL")
 
   useEffect(() => {
     async function fetchAllTravel() {
@@ -163,9 +164,24 @@ export default function LocationPage() {
         <h1 className="text-4xl font-bold text-center mb-2 text-white">
           🗺️ NHL Team Locations
         </h1>
-        <p className="text-center text-gray-400 mb-8">
-          Watch all 32 teams travel across North America throughout the 2025-26 season
+        <p className="text-center text-gray-400 mb-4">
+          Watch teams travel across North America throughout the 2025-26 season
         </p>
+        <div className="flex justify-center mb-8">
+          <select
+            value={selectedTeam}
+            onChange={e => setSelectedTeam(e.target.value)}
+            className="bg-gray-800 text-white border border-gray-600 rounded-lg px-6 py-3 text-lg focus:outline-none focus:border-blue-400 w-64"
+          >
+            <option value="ALL">All Teams</option>
+            {Object.entries(TEAM_NAMES)
+              .sort((a, b) => a[1].localeCompare(b[1]))
+              .map(([abbrev, name]) => (
+                <option key={abbrev} value={abbrev}>{name}</option>
+              ))
+            }
+          </select>
+        </div>
 
         {loading ? (
           <p className="text-center text-gray-400 text-xl mt-20">Loading map data...</p>
@@ -191,7 +207,7 @@ export default function LocationPage() {
                   </div>
                   <div className="flex items-center gap-3">
                     <span className="text-gray-400 text-sm">Speed:</span>
-                    {([["Slow", 500], ["Normal", 150], ["Fast", 50]] as [string, number][]).map(([label, ms]) => (
+                    {([["Normal", 500], ["Fast", 150]] as [string, number][]).map(([label, ms]) => (
                       <button
                         key={label}
                         onClick={() => setPlaybackSpeed(ms)}
@@ -235,7 +251,13 @@ export default function LocationPage() {
                 Team Locations — {currentDate || "Season Start"}
               </h2>
               <TravelMap
-                teamPositions={teamPositions}
+                teamPositions={
+                  selectedTeam === "ALL"
+                    ? teamPositions
+                    : Object.fromEntries(
+                        Object.entries(teamPositions).filter(([abbrev]) => abbrev === selectedTeam)
+                      )
+                }
                 teamMiles={teamMiles}
               />
               <p className="text-gray-500 text-xs mt-3 text-center">
