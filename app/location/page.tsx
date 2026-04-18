@@ -146,20 +146,7 @@ export default function LocationPage() {
         <title>Stat Grinder — Team Locations</title>
       <div className="max-w-5xl mx-auto">
 
-        {/* Navigation */}
-        <nav className="flex justify-center gap-6 mb-8">
-          <a href="/" className="text-blue-400 hover:text-blue-200 font-medium transition-colors">
-            Nationality Dashboard
-          </a>
-          <span className="text-gray-600">|</span>
-          <a href="/travel" className="text-blue-400 hover:text-blue-200 font-medium transition-colors">
-            Travel Tracker
-          </a>
-          <span className="text-gray-600">|</span>
-          <a href="/location" className="text-white font-semibold border-b-2 border-blue-400 pb-0.5">
-            Team Locations
-          </a>
-        </nav>
+        
 
         {/* Header */}
         <h1 className="text-4xl font-bold text-center mb-2 text-white">

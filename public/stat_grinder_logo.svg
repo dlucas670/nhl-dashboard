@@ -1,6 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="680" height="300" viewBox="0 0 680 300" role="img">
-  <title>Stat Grinder logo with Jason mask and vertical offset SG monogram</title>
-  <desc>Hockey analytics logo with Jason mask featuring vertical SG monogram offset diagonally</desc>
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="240" viewBox="60 25 680 240" role="img">  
+<desc>Hockey analytics logo with Jason mask featuring vertical SG monogram offset diagonally</desc>
 
   <defs>
     <clipPath id="maskClip">
@@ -95,9 +94,8 @@
   <line x1="290" y1="60" x2="290" y2="240" stroke="#cbd5e1" stroke-width="1"/>
 
   <!-- wordmark -->
-  <text x="330" y="132" font-family="Arial Black, Arial" font-weight="900" font-size="62" letter-spacing="-1" fill="#0f172a">STAT</text>
-  <rect x="330" y="145" width="300" height="4" fill="#3b82f6" rx="2"/>
-  <text x="330" y="204" font-family="Arial Black, Arial" font-weight="900" font-size="62" letter-spacing="-1" fill="#0f172a">GRINDER</text>
-  <text x="332" y="230" font-family="Arial, sans-serif" font-size="13" letter-spacing="4" fill="#64748b">NHL ANALYTICS</text>
-
+  <text x="300" y="105" font-family="Arial Black, Arial" font-weight="900" font-size="75" letter-spacing="-2" fill="#ffffff">STAT</text>
+  <rect x="300" y="116" width="360" height="5" fill="#3b82f6" rx="2"/>
+  <text x="300" y="198" font-family="Arial Black, Arial" font-weight="900" font-size="75" letter-spacing="-2" fill="#ffffff">GRINDER</text>
+  <text x="303" y="245" font-family="Arial, sans-serif" font-size="35" letter-spacing="5" fill="#94a3b8">NHL ANALYTICS</text>
 </svg>
