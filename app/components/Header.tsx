@@ -1,82 +1,35 @@
 'use client'
 
-import { useState } from 'react'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
-
-const NAV_LINKS = [
-  { href: '/nationality', label: 'Nationality Dashboard' },
-  { href: '/travel',      label: 'Travel Tracker' },
-  { href: '/location',    label: 'Team Locations' },
-]
-
+import Image from 'next/image'
 
 export default function Header() {
-  const [menuOpen, setMenuOpen] = useState(false)
-  const pathname = usePathname()
-
   return (
-    <header className="bg-gray-900 border-b border-gray-800 sticky top-0 z-50">
-      <div className="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
-
-        {/* Logo */}
-        <Link href="/" onClick={() => setMenuOpen(false)}>
-          <img
+    <header style={{
+      background: '#0d0d10',
+      borderBottom: '0.5px solid #232329',
+      position: 'sticky',
+      top: 0,
+      zIndex: 50,
+    }}>
+      <div style={{
+        maxWidth: '860px',
+        margin: '0 auto',
+        padding: '0 1.5rem',
+        height: '56px',
+        display: 'flex',
+        alignItems: 'center',
+      }}>
+        <Link href="/" style={{ display: 'flex', alignItems: 'center', lineHeight: 0 }}>
+          <Image
             src="/stat_grinder_logo.svg"
             alt="Stat Grinder"
-            className="h-12 w-auto"
+            width={160}
+            height={53}
+            priority
           />
         </Link>
-
-        {/* Desktop nav */}
-        <nav className="hidden md:flex items-center gap-8">
-          {NAV_LINKS.map(({ href, label }) => (
-            <Link
-              key={href}
-              href={href}
-              className={`text-sm font-medium transition-colors ${
-                pathname === href
-                  ? 'text-white border-b-2 border-blue-400 pb-0.5'
-                  : 'text-gray-400 hover:text-white'
-              }`}
-            >
-              {label}
-            </Link>
-          ))}
-        </nav>
-
-        {/* Hamburger button — mobile only */}
-        <button
-          onClick={() => setMenuOpen(p => !p)}
-          className="md:hidden flex flex-col justify-center gap-1.5 w-8 h-8 focus:outline-none"
-          aria-label="Toggle menu"
-        >
-          <span className={`block h-0.5 w-6 bg-gray-300 transition-transform duration-200 ${menuOpen ? 'rotate-45 translate-y-2' : ''}`}/>
-          <span className={`block h-0.5 w-6 bg-gray-300 transition-opacity duration-200 ${menuOpen ? 'opacity-0' : ''}`}/>
-          <span className={`block h-0.5 w-6 bg-gray-300 transition-transform duration-200 ${menuOpen ? '-rotate-45 -translate-y-2' : ''}`}/>
-        </button>
-
       </div>
-
-      {/* Mobile dropdown menu */}
-      {menuOpen && (
-        <nav className="md:hidden border-t border-gray-800 bg-gray-900 px-6 py-4 flex flex-col gap-4">
-          {NAV_LINKS.map(({ href, label }) => (
-            <Link
-              key={href}
-              href={href}
-              onClick={() => setMenuOpen(false)}
-              className={`text-sm font-medium transition-colors ${
-                pathname === href
-                  ? 'text-white'
-                  : 'text-gray-400 hover:text-white'
-              }`}
-            >
-              {label}
-            </Link>
-          ))}
-        </nav>
-      )}
     </header>
   )
 }

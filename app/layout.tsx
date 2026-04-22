@@ -17,9 +17,10 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Stat Grinder",
-  description: "NHL statistics and analytics dashboard",
+  description: "Sports analytics trivia — assign teams to stat categories across NHL, NFL, MLB, and NBA.",
   icons: {
-    icon: '/stat_grinder_favicon.ico',
+    icon: '/stat_grinder_favicon.svg',
+    shortcut: '/stat_grinder_favicon.svg',
   },
 };
 

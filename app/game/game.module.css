@@ -1,25 +1,8 @@
 /* ─── Page shell ─────────────────────────────────────────────────────────── */
 .page {
   min-height: 100vh;
-  background: #030712;
-  color: #f9fafb;
-}
-
-.nav {
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 1.25rem 1rem 0;
-}
-
-.backLink {
-  font-size: 13px;
-  color: #6b7280;
-  text-decoration: none;
-  transition: color 0.15s;
-}
-
-.backLink:hover {
-  color: #9ca3af;
+  background: #0d0d10;
+  color: #f5f4f0;
 }
 
 .app {
@@ -36,14 +19,6 @@
   margin-bottom: 1.5rem;
 }
 
-.logoText {
-  font-size: 13px;
-  font-weight: 500;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  color: #4b5563;
-}
-
 .scorebar {
   display: flex;
   align-items: center;
@@ -51,82 +26,84 @@
 }
 
 .statBlock { text-align: center; }
-.statValue  { font-size: 20px; font-weight: 500; line-height: 1; color: #f9fafb; }
-.statLabel  { font-size: 11px; color: #4b5563; margin-top: 2px; letter-spacing: 0.5px; }
+.statValue  { font-size: 24px; font-weight: 500; line-height: 1; color: #f5f4f0; }
+.statLabel  { font-size: 13px; color: #555; margin-top: 2px; letter-spacing: 0.5px; }
 
 .scorebarDivider {
   width: 0.5px;
   height: 28px;
-  background: #1f2937;
+  background: #232329;
 }
 
 /* ─── Team card ──────────────────────────────────────────────────────────── */
 .teamCard {
-  background: #111827;
-  border: 0.5px solid #1f2937;
+  background: #111116;
+  border: 0.5px solid #232329;
   border-radius: 12px;
-  padding: 1.25rem 1.5rem;
+  padding: 1.5rem 1.5rem 1.25rem;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 1.25rem;
+  gap: 0.75rem;
   margin-bottom: 1rem;
-  min-height: 100px;
   animation: fadeUp 0.2s ease;
 }
 
 .logoWrap {
-  width: 72px;
-  height: 72px;
-  flex-shrink: 0;
+  width: 80px;
+  height: 80px;
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative;
 }
 
 .teamLogo {
-  width: 68px;
-  height: 68px;
+  width: 76px;
+  height: 76px;
   object-fit: contain;
+  animation: logoReveal 0.25s ease;
 }
 
-.logoFallback {
-  width: 64px;
-  height: 64px;
+.logoPulse {
+  width: 76px;
+  height: 76px;
   border-radius: 50%;
-  background: #1f2937;
-  border: 0.5px solid #374151;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 14px;
-  font-weight: 500;
-  color: #6b7280;
+  background: #1c1c22;
+  border: 0.5px solid #2e2e38;
+  animation: pulseBg 0.55s ease-in-out infinite alternate;
 }
 
-.teamBody    { flex: 1; min-width: 0; }
-.teamName    { font-size: 19px; font-weight: 500; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #f9fafb; }
-.teamRecord  { font-size: 13px; color: #6b7280; margin-top: 4px; }
-.hidden      { visibility: hidden; }
-
-/* ─── Spinning animation ─────────────────────────────────────────────────── */
-.spinning .teamLogo,
-.spinning .logoFallback {
-  animation: logoFlash 0.08s steps(1) infinite;
+@keyframes pulseBg {
+  from { opacity: 0.35; }
+  to   { opacity: 0.8; }
 }
 
-@keyframes logoFlash {
-  0%   { opacity: 1;   }
-  50%  { opacity: 0.4; }
-  100% { opacity: 1;   }
+@keyframes logoReveal {
+  from { opacity: 0; transform: scale(0.85); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+
+.teamBody { text-align: center; }
+.teamName { font-size: 22px; font-weight: 500; line-height: 1.2; color: #f5f4f0; min-height: 1.2em; }
+
+.spinningName {
+  color: #444;
+  animation: nameFlicker 0.14s steps(2) infinite;
+}
+
+@keyframes nameFlicker {
+  0%   { opacity: 0.5; }
+  50%  { opacity: 1;   }
+  100% { opacity: 0.5; }
 }
 
 /* ─── Prompt ─────────────────────────────────────────────────────────────── */
 .prompt {
-  font-size: 12px;
-  color: #4b5563;
+  font-size: 14px;
+  color: #555;
   margin-bottom: 10px;
-  min-height: 18px;
+  min-height: 20px;
 }
 
 /* ─── Slots grid ─────────────────────────────────────────────────────────── */
@@ -138,24 +115,26 @@
 }
 
 .slot {
-  background: #111827;
-  border: 0.5px solid #1f2937;
+  background: #111116;
+  border: 0.5px solid #232329;
   border-radius: 8px;
-  padding: 11px 13px;
+  padding: 12px 14px;
   cursor: pointer;
-  height: 72px;
+  height: 90px;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  align-items: center;
   justify-content: space-between;
   text-align: left;
   transition: background 0.12s, border-color 0.12s;
   font-family: inherit;
-  color: #f9fafb;
+  color: #f5f4f0;
+  gap: 8px;
 }
 
 .slot:hover:not(:disabled) {
-  background: #1f2937;
-  border-color: #374151;
+  background: #1c1c22;
+  border-color: #F5A524;
 }
 
 .slot:active:not(:disabled) {
@@ -164,7 +143,7 @@
 
 .locked {
   cursor: default;
-  background: #0d1117;
+  background: #0d0d10;
 }
 
 .blocked {
@@ -173,24 +152,40 @@
 }
 
 .slotLabel {
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 500;
-  color: #6b7280;
+  color: #555;
   line-height: 1.3;
 }
 
 .slotLabelFilled {
-  color: #4b5563;
+  color: #444;
+}
+
+.slotLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+  min-width: 0;
+}
+
+.slotLogo {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
 }
 
 .slotRank {
-  font-size: 32px;
-  font-weight: 500;
+  font-size: 40px;
+  font-weight: 600;
   line-height: 1;
+  flex-shrink: 0;
+  text-align: right;
 }
 
 /* ─── Rank colours ───────────────────────────────────────────────────────── */
-.rankEmpty { color: #1f2937; }
+.rankEmpty { color: #232329; }
 .rankG1 { color: #0F6E56; }
 .rankG2 { color: #3B6D11; }
 .rankG3 { color: #639922; }
@@ -202,8 +197,8 @@
 
 /* ─── Results ────────────────────────────────────────────────────────────── */
 .results {
-  background: #111827;
-  border: 0.5px solid #1f2937;
+  background: #111116;
+  border: 0.5px solid #232329;
   border-radius: 12px;
   padding: 1.5rem;
   text-align: center;
@@ -211,13 +206,13 @@
   animation: fadeUp 0.2s ease;
 }
 
-.resultsScore { font-size: 56px; font-weight: 500; line-height: 1; color: #f9fafb; }
-.resultsLabel { font-size: 13px; color: #6b7280; margin-top: 4px; margin-bottom: 1.25rem; }
-.aboveOptimal { color: #4b5563; font-size: 12px; }
+.resultsScore { font-size: 64px; font-weight: 500; line-height: 1; color: #f5f4f0; }
+.resultsLabel { font-size: 14px; color: #555; margin-top: 4px; margin-bottom: 1.25rem; }
+.aboveOptimal { color: #444; font-size: 13px; }
 
 .breakdown {
   text-align: left;
-  border-top: 0.5px solid #1f2937;
+  border-top: 0.5px solid #232329;
   padding-top: 1rem;
   margin-bottom: 1.25rem;
 }
@@ -227,16 +222,39 @@
   justify-content: space-between;
   align-items: center;
   padding: 6px 0;
-  border-bottom: 0.5px solid #1f2937;
+  border-bottom: 0.5px solid #232329;
   gap: 8px;
 }
 
 .breakdownRow:last-child { border-bottom: none; }
 
-.bdCat  { font-size: 12px; color: #6b7280; flex: 1; }
-.bdTeam { font-size: 12px; color: #4b5563; flex: 1; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.bdRank { font-size: 13px; font-weight: 500; flex-shrink: 0; text-align: right; }
-.bdOf   { font-size: 10px; font-weight: 400; color: #4b5563; }
+.bdCat  { font-size: 13px; color: #555; flex: 1; }
+.bdTeam { font-size: 13px; color: #444; flex: 1; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.bdRank { font-size: 14px; font-weight: 500; flex-shrink: 0; text-align: right; }
+.bdOf   { font-size: 11px; font-weight: 400; color: #444; }
+
+.newBest {
+  display: inline-block;
+  background: #2a1800;
+  color: #F5A524;
+  border: 0.5px solid #F5A524;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  padding: 3px 10px;
+  margin-bottom: 0.5rem;
+}
+
+.beatChallenge {
+  font-size: 12px;
+  color: #555;
+  margin-bottom: 1rem;
+}
+
+.beatChallenge strong {
+  color: #888;
+}
 
 .resultsActions {
   display: flex;
@@ -248,21 +266,22 @@
 .btn {
   padding: 9px 20px;
   border-radius: 8px;
-  background: #1f2937;
-  border: 0.5px solid #374151;
+  background: #1c1c22;
+  border: 0.5px solid #2e2e38;
   cursor: pointer;
   font-size: 13px;
   font-family: inherit;
-  color: #f9fafb;
+  color: #f5f4f0;
   transition: background 0.12s;
 }
 
-.btn:hover { background: #374151; }
+.btn:hover { background: #2e2e38; }
 
 .btnPrimary {
-  background: #f9fafb;
-  color: #030712;
-  border-color: #f9fafb;
+  background: #F5A524;
+  color: #0d0d10;
+  border-color: #F5A524;
+  font-weight: 600;
 }
 
 .btnPrimary:hover { opacity: 0.88; }
@@ -271,25 +290,59 @@
 .loading {
   text-align: center;
   padding: 3rem;
-  color: #4b5563;
-  font-size: 14px;
+  color: #555;
+  font-size: 16px;
 }
 
 .dataNotice {
-  font-size: 11px;
-  color: #4b5563;
+  font-size: 13px;
+  color: #444;
   text-align: center;
   margin-bottom: 0.75rem;
 }
 
 .footer {
-  font-size: 11px;
-  color: #374151;
+  font-size: 13px;
+  color: #2e2e38;
   text-align: center;
   margin-top: 1rem;
 }
 
-.dataSource { color: #374151; }
+.dataSource { color: #2e2e38; }
+
+/* ─── Sport selector ─────────────────────────────────────────────────────── */
+.sportTabs {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 1.5rem;
+}
+
+.sportTab {
+  flex: 1;
+  padding: 9px 4px;
+  border-radius: 6px;
+  border: 0.5px solid #232329;
+  background: transparent;
+  color: #555;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  font-family: inherit;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: background 0.12s, color 0.12s, border-color 0.12s;
+}
+
+.sportTab:hover:not(.sportTabActive) {
+  background: #111116;
+  color: #888;
+}
+
+.sportTabActive {
+  background: #2a1800;
+  color: #F5A524;
+  border-color: #F5A524;
+}
 
 /* ─── Animation ──────────────────────────────────────────────────────────── */
 @keyframes fadeUp {

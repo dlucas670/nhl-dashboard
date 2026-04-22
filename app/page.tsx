@@ -1,118 +1,103 @@
-'use client'
-
-export const dynamic = 'force-dynamic'
-
-import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
+import styles from './home.module.css'
+import { BestScoreBadge } from './components/BestScoreBadge'
 
-const PAGES = [
+const MODES = [
   {
-    href: '/nationality',
-    title: 'Nationality Dashboard',
-    description: 'Explore the nationality makeup of every NHL team and compare rosters against Stanley Cup finalists from the last 10 years.',
-    icon: '🌍',
-    stat: '32 Teams',
-    stat2: '3 Seasons of Data',
-    color: '#2E75B6',
+    id: 'nhl',
+    label: 'NHL',
+    sport: 'National Hockey League',
+    description: 'Assign 2025/26 NHL teams to stat categories — goals, power play, penalty kill, and more. How well do you know the league?',
+    categories: ['Wins', 'Goals For/G', 'Goals Against/G', 'Power Play %', 'Penalty Kill %', 'Shots For/G'],
+    teams: 32,
   },
   {
-    href: '/travel',
-    title: 'Travel Tracker',
-    description: 'See how many miles each team has traveled this season. Watch the full season play out with an animated bar chart.',
-    icon: '✈️',
-    stat: '82 Games',
-    stat2: '~45,000 Miles / Team',
-    color: '#1A5C38',
+    id: 'nfl',
+    label: 'NFL',
+    sport: 'National Football League',
+    description: 'Place 2025 NFL teams across six offensive and defensive stat categories. Points, yards, passing and rushing.',
+    categories: ['Wins', 'Points For/G', 'Points Against/G', 'Total Yards/G', 'Pass Yards/G', 'Rush Yards/G'],
+    teams: 32,
   },
   {
-    href: '/location',
-    title: 'Team Locations',
-    description: 'Watch all 32 teams move across North America in real time as the season progresses on an interactive map.',
-    icon: '🗺️',
-    stat: '32 Teams',
-    stat2: 'Live Map Animation',
-    color: '#6A0DAD',
+    id: 'mlb',
+    label: 'MLB',
+    sport: 'Major League Baseball',
+    description: 'Sort 2025 MLB clubs by pitching, hitting, and fielding — ERA, batting average, errors per game, and home runs.',
+    categories: ['Wins', 'Runs/G', 'ERA', 'Batting Avg', 'Errors/G', 'Home Runs/G'],
+    teams: 30,
+  },
+  {
+    id: 'nba',
+    label: 'NBA',
+    sport: 'National Basketball Assoc.',
+    description: 'Rank 2025-26 NBA teams across six categories covering scoring, turnovers, rebounding, and shooting.',
+    categories: ['Wins', 'Points/G', 'Rebounds/G', 'Assists/G', '3-Point %', 'Turnovers/G'],
+    teams: 30,
   },
 ]
 
 export default function HomePage() {
   return (
-    <main className="min-h-screen bg-gray-950 text-white">
+    <main className={styles.main}>
 
-      {/* Hero */}
-      <div className="max-w-5xl mx-auto px-6 pt-16 pb-12 text-center">
-        <h1 className="text-5xl font-black mb-4 tracking-tight">
-          Welcome to{' '}
-          <span className="text-blue-400">Stat Grinder</span>
-        </h1>
-        <p className="text-gray-400 text-xl max-w-2xl mx-auto">
-          NHL analytics built for fans. Explore team composition, travel data, and real-time locations across the 2025-26 season.
+      <section className={styles.hero}>
+        <Image
+          src="/stat_grinder_logo.svg"
+          alt="Stat Grinder"
+          width={600}
+          height={200}
+          className={styles.heroLogo}
+          priority
+        />
+        <p className={styles.heroTagline}>Sports Analytics Trivia</p>
+        <p className={styles.heroDesc}>
+          A team is revealed. Six stat categories wait. Assign each team to the category where you think they rank — lowest total score wins.
         </p>
-      </div>
+      </section>
 
-      {/* Page cards */}
-      <div className="max-w-5xl mx-auto px-6 pb-20">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {PAGES.map(page => (
-            <Link
-              key={page.href}
-              href={page.href}
-              className="group bg-gray-900 rounded-2xl border border-gray-800 overflow-hidden hover:border-gray-600 transition-all duration-200 hover:-translate-y-1 hover:shadow-2xl"
-            >
-              {/* Thumbnail color band */}
-              <div
-                className="h-40 flex items-center justify-center relative overflow-hidden"
-                style={{ backgroundColor: page.color + '22', borderBottom: `3px solid ${page.color}` }}
-              >
-                {/* Large background icon */}
-                <span
-                  className="absolute text-9xl opacity-10 select-none"
-                  style={{ fontSize: '120px' }}
-                >
-                  {page.icon}
-                </span>
-                {/* Foreground icon -->*/}
-                <span className="text-6xl relative z-10 group-hover:scale-110 transition-transform duration-200">
-                  {page.icon}
-                </span>
+      <section className={styles.howto}>
+        <div className={styles.howtoGrid}>
+          <div className={styles.step}>
+            <div className={styles.stepNum}>1</div>
+            <div className={styles.stepText}>A random team from the league is drawn</div>
+          </div>
+          <div className={styles.step}>
+            <div className={styles.stepNum}>2</div>
+            <div className={styles.stepText}>Assign that team to one of six stat categories</div>
+          </div>
+          <div className={styles.step}>
+            <div className={styles.stepNum}>3</div>
+            <div className={styles.stepText}>Repeat until all categories are filled — lowest rank total wins</div>
+          </div>
+        </div>
+      </section>
+
+      <section className={styles.modes}>
+        <h2 className={styles.sectionTitle}>SELECT A LEAGUE</h2>
+        <div className={styles.grid}>
+          {MODES.map(mode => (
+            <Link key={mode.id} href={`/game?sport=${mode.id}`} className={styles.card}>
+              <div className={styles.cardHeader}>
+                <span className={styles.cardLabel}>{mode.label}</span>
+                <span className={styles.cardTeams}>{mode.teams} teams</span>
               </div>
-
-              {/* Card content */}
-              <div className="p-6">
-                <h2 className="text-xl font-bold text-white mb-2 group-hover:text-blue-300 transition-colors">
-                  {page.title}
-                </h2>
-                <p className="text-gray-400 text-sm leading-relaxed mb-4">
-                  {page.description}
-                </p>
-                {/* Stats pills */}
-                <div className="flex gap-2 flex-wrap">
-                  <span
-                    className="text-xs font-medium px-3 py-1 rounded-full"
-                    style={{ backgroundColor: page.color + '33', color: page.color === '#1A5C38' ? '#4ade80' : page.color === '#6A0DAD' ? '#c084fc' : '#60a5fa' }}
-                  >
-                    {page.stat}
-                  </span>
-                  <span
-                    className="text-xs font-medium px-3 py-1 rounded-full"
-                    style={{ backgroundColor: page.color + '33', color: page.color === '#1A5C38' ? '#4ade80' : page.color === '#6A0DAD' ? '#c084fc' : '#60a5fa' }}
-                  >
-                    {page.stat2}
-                  </span>
-                </div>
+              <div className={styles.cardSport}>{mode.sport}</div>
+              <p className={styles.cardDesc}>{mode.description}</p>
+              <div className={styles.cardCats}>
+                {mode.categories.map(cat => (
+                  <span key={cat} className={styles.cat}>{cat}</span>
+                ))}
               </div>
-
-              {/* Footer arrow */}
-              <div className="px-6 pb-5 flex items-center gap-2 text-sm font-medium"
-                style={{ color: page.color === '#1A5C38' ? '#4ade80' : page.color === '#6A0DAD' ? '#c084fc' : '#60a5fa' }}
-              >
-                Explore
-                <span className="group-hover:translate-x-1 transition-transform duration-200">→</span>
+              <BestScoreBadge sportId={mode.id} />
+              <div className={styles.cardCta}>
+                Play {mode.label} <span className={styles.arrow}>→</span>
               </div>
             </Link>
           ))}
         </div>
-      </div>
+      </section>
 
     </main>
   )
