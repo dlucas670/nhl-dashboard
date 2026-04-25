@@ -171,11 +171,9 @@ export default function DailyGame({ team, challengeNum }: Props) {
 
         {/* Header */}
         <div className={styles.header}>
-          <div>
-            <div className={styles.challengeNum}>The Daily Grind #{challengeNum}</div>
-            <div className={styles.challengeDate}>
-              {new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
-            </div>
+          <div className={styles.challengeNum}>
+            The Daily Grind for{' '}
+            {new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
           </div>
           <Link href="/" className={styles.backLink}>← All modes</Link>
         </div>
@@ -191,7 +189,15 @@ export default function DailyGame({ team, challengeNum }: Props) {
               >
                 <div className={styles.clueRow}>
                   <span className={styles.clueLabel}>{CLUE_LABELS[i]}</span>
-                  <span className={styles.clueValue}>{getClueValue(team, i)}</span>
+                  {i === 5 ? (
+                    <div className={styles.colorSwatches}>
+                      {team.colors.map(c => (
+                        <div key={c} className={styles.colorSwatch} style={{ background: c }} title={c} />
+                      ))}
+                    </div>
+                  ) : (
+                    <span className={styles.clueValue}>{getClueValue(team, i)}</span>
+                  )}
                 </div>
                 {wrongGuesses[i] && (
                   <div className={styles.clueWrong}>✗ {wrongGuesses[i]}</div>
