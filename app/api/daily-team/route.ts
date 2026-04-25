@@ -7,8 +7,8 @@ export async function GET() {
   try {
     const team = await getTodaysTeamFromDB()
     return NextResponse.json(team)
-  } catch (e) {
+  } catch (e: any) {
     console.error('daily-team route error:', e)
-    return NextResponse.json({ error: 'Failed to load team' }, { status: 500 })
+    return NextResponse.json({ error: 'Failed to load team', detail: e?.message ?? String(e) }, { status: 500 })
   }
 }
