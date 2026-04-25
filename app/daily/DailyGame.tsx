@@ -3,18 +3,18 @@
 import { useState, useEffect, useRef, useMemo } from 'react'
 import Link from 'next/link'
 import styles from './daily.module.css'
-import { CLUE_LABELS, getClueValue, ALL_TEAMS, type TeamData } from '@/lib/teamData'
+import { CLUE_LABELS, getClueValue, getEasternDateString, ALL_TEAMS, type TeamData } from '@/lib/teamData'
 
 const MAX_CLUES = 6
 
-function buildShareText(wrongGuesses: string[], solved: boolean, num: number): string {
+function buildShareText(wrongGuesses: string[], solved: boolean, dateLabel: string): string {
   let emoji = ''
   for (let i = 0; i < MAX_CLUES; i++) {
     if (i < wrongGuesses.length) emoji += '🟥'
     else if (i === wrongGuesses.length && solved) emoji += '🟩'
     else emoji += '⬛'
   }
-  return `The Daily Grind #${num}\n${emoji}\nstatgrinder.com/daily`
+  return `The Daily Grind for ${dateLabel}\n${emoji}\nstatgrinder.com`
 }
 
 interface SavedState {
@@ -30,7 +30,12 @@ interface Props {
 }
 
 export default function DailyGame({ team, challengeNum }: Props) {
-  const storageKey = `sg_daily_${challengeNum}_${team.abbrev}_${team.league}`
+  const todayEastern = getEasternDateString() // YYYY-MM-DD, changes at midnight Eastern
+  const storageKey = `sg_daily_${todayEastern}_${team.abbrev}_${team.league}`
+  const todayLabel = new Intl.DateTimeFormat('en-US', {
+    timeZone: 'America/New_York',
+    month: 'long', day: 'numeric', year: 'numeric',
+  }).format(new Date())
 
   const [cluesRevealed, setCluesRevealed] = useState(1)
   const [solved, setSolved] = useState(false)
@@ -160,7 +165,7 @@ export default function DailyGame({ team, challengeNum }: Props) {
 
   const done = solved || failed
   const totalGuesses = wrongGuesses.length + (solved ? 1 : 0)
-  const shareText = buildShareText(wrongGuesses, solved, challengeNum)
+  const shareText = buildShareText(wrongGuesses, solved, todayLabel)
   const shareEmoji = shareText.split('\n')[1]
   const showDropdown = dropdownOpen && filtered.length > 0
   const encodedText = encodeURIComponent(shareText)
@@ -172,8 +177,7 @@ export default function DailyGame({ team, challengeNum }: Props) {
         {/* Header */}
         <div className={styles.header}>
           <div className={styles.challengeNum}>
-            The Daily Grind for{' '}
-            {new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
+            The Daily Grind for {todayLabel}
           </div>
           <Link href="/" className={styles.backLink}>← All modes</Link>
         </div>
