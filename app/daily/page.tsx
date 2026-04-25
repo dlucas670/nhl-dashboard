@@ -10,14 +10,8 @@ export default function DailyPage() {
   const [challengeNum, setChallengeNum] = useState(0)
 
   useEffect(() => {
+    setTeam(getTodaysTeam())
     setChallengeNum(getChallengeNumber())
-    fetch('/api/daily-team')
-      .then(r => (r.ok ? r.json() : null))
-      .then(data => {
-        if (data?.name) setTeam(data as TeamData)
-        else setTeam(getTodaysTeam())
-      })
-      .catch(() => setTeam(getTodaysTeam()))
   }, [])
 
   if (!team) return <div className={styles.page} />

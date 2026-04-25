@@ -56,9 +56,25 @@ export function getDayIndex(): number {
 }
 
 export function getChallengeNumber(): number { return getDayIndex() + 1 }
+
+// Deterministic shuffle using a fixed seed — same order for every user, no repeats for 124 days
+function seededShuffle(arr: TeamData[], seed: number): TeamData[] {
+  const out = [...arr]
+  let s = seed
+  for (let i = out.length - 1; i > 0; i--) {
+    s = Math.imul(s ^ (s >>> 16), 0x45d9f3b)
+    s = Math.imul(s ^ (s >>> 16), 0x45d9f3b)
+    s ^= s >>> 16
+    const j = Math.abs(s) % (i + 1);
+    [out[i], out[j]] = [out[j], out[i]]
+  }
+  return out
+}
+
 export function getTodaysTeam(): TeamData {
+  const shuffled = seededShuffle(ALL_TEAMS, 0xdeadbeef)
   const idx = getDayIndex()
-  return ALL_TEAMS[idx % ALL_TEAMS.length]
+  return shuffled[idx % shuffled.length]
 }
 
 // ─── All teams ────────────────────────────────────────────────────────────────
