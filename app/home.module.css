@@ -214,6 +214,66 @@
   transform: translateX(4px);
 }
 
+/* ── Daily Challenge banner ───────────────────────────────────────────────── */
+.daily {
+  border-top: 0.5px solid #232329;
+  border-bottom: 0.5px solid #232329;
+  background: #0f0f14;
+  padding: 1.5rem;
+}
+
+.dailyInner {
+  max-width: 860px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+
+.dailyLeft { flex: 1; }
+
+.dailyBadge {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: #F5A524;
+  margin-bottom: 0.35rem;
+}
+
+.dailyTitle {
+  font-size: 22px;
+  font-weight: 600;
+  color: #f5f4f0;
+  margin: 0 0 0.5rem;
+  line-height: 1.2;
+}
+
+.dailyDesc {
+  font-size: 15px;
+  color: #888;
+  line-height: 1.55;
+  margin: 0;
+  max-width: 480px;
+}
+
+.dailyBtn {
+  display: inline-block;
+  padding: 11px 22px;
+  border-radius: 10px;
+  background: #F5A524;
+  color: #0d0d10;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+  letter-spacing: 0.02em;
+  transition: opacity 0.12s;
+  flex-shrink: 0;
+}
+
+.dailyBtn:hover { opacity: 0.88; }
+
 /* ── Responsive ───────────────────────────────────────────────────────────── */
 @media (max-width: 600px) {
   .grid {
@@ -226,5 +286,15 @@
 
   .heroLogo {
     max-width: 320px;
+  }
+
+  .dailyInner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .dailyBtn {
+    width: 100%;
+    text-align: center;
   }
 }

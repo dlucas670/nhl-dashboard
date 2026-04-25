@@ -74,6 +74,22 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Daily Challenge */}
+      <section className={styles.daily}>
+        <div className={styles.dailyInner}>
+          <div className={styles.dailyLeft}>
+            <div className={styles.dailyBadge}>NEW DAILY MODE</div>
+            <h2 className={styles.dailyTitle}>The Daily Grind</h2>
+            <p className={styles.dailyDesc}>
+              Six clues. One team. All four leagues. Guess with fewer clues for a higher score — then share your result. A new grind every day.
+            </p>
+          </div>
+          <Link href="/daily" className={styles.dailyBtn}>
+            Play today&rsquo;s grind →
+          </Link>
+        </div>
+      </section>
+
       <section className={styles.modes}>
         <h2 className={styles.sectionTitle}>SELECT A LEAGUE</h2>
         <div className={styles.grid}>
