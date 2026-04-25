@@ -142,7 +142,7 @@ export default function DailyGame({ team, challengeNum }: Props) {
   }
 
   function share() {
-    const text = buildShareText(wrongGuesses, solved, challengeNum)
+    const text = buildShareText(wrongGuesses, solved, todayLabel)
 
     // 1. Native WKWebView bridge (iOS app wrapper)
     const webkit = (window as any).webkit
